@@ -38,6 +38,28 @@ app.post("/convertJSONtoXML", (req, res) => {
   res.json({ result });
 });
 
+// Pokémon → XML
+app.post("/convertPokemon", async (req, res) => {
+  const name = req.body.data;
+
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  const pokemonJson = await response.json();
+
+  const result = convert.json2xml(JSON.stringify(pokemonJson), { compact: true, spaces: 2 });
+
+  res.json({ result });
+});
+
+// Pokémon → JSON (per mostrar habilitats i imatge)
+app.post("/infoPokemon", async (req, res) => {
+  const name = req.body.data;
+
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  const result = await response.json();
+
+  res.json({ result });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Servidor a http://localhost:${PORT}`);
