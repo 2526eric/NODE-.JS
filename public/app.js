@@ -1,5 +1,6 @@
-
 const btn = document.getElementById("btn");
+const btnXMLtoJSON = document.getElementById("btnXMLtoJSON");
+const btnJSONtoXML = document.getElementById("btnJSONtoXML");
 
 btn.addEventListener("click", async () => {
 
@@ -18,7 +19,7 @@ btn.addEventListener("click", async () => {
     },
 
     // Cos de la petició (les dades que enviem)
-    // Convertim l’objecte JS a text JSON
+    // Convertim l'objecte JS a text JSON
     body: JSON.stringify({ data: text })
   });
 
@@ -27,5 +28,39 @@ btn.addEventListener("click", async () => {
   const json = await res.json();
   
   // Mostrem el resultat a la textarea de sortida
+  document.getElementById("output").value = json.result;
+});
+
+btnXMLtoJSON.addEventListener("click", async () => {
+
+  const text = document.getElementById("input").value;
+
+  const res = await fetch("/convertXMLtoJSON", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ data: text })
+  });
+
+  const json = await res.json();
+  
+  document.getElementById("output").value = json.result;
+});
+
+btnJSONtoXML.addEventListener("click", async () => {
+
+  const text = document.getElementById("input").value;
+
+  const res = await fetch("/convertJSONtoXML", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ data: text })
+  });
+
+  const json = await res.json();
+  
   document.getElementById("output").value = json.result;
 });
